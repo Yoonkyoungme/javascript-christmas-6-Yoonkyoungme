@@ -9,6 +9,7 @@ class App {
 
   async getInputData() {
     const date = await InputView.readDate();
+    const order = await InputView.readOrder();
   }
 }
 
