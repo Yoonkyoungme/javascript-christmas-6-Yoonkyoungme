@@ -12,7 +12,12 @@ class App {
     OutputView.printIntro();
     await this.getInputData();
     this.calculatePrice();
-    OutputView.printPreview(this.#date, this.#order, this.#totalPrice);
+    OutputView.printPreview(
+      this.#date,
+      this.#order,
+      this.#totalPrice,
+      this.#benefits
+    );
   }
 
   async getInputData() {

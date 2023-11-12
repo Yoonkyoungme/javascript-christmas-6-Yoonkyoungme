@@ -6,10 +6,11 @@ const OutputView = {
     Console.print(PRINT.INTRO);
   },
 
-  printPreview(data, order, totalPrice) {
+  printPreview(data, order, totalPrice, benefits) {
     this.printPreviewStart(data);
     this.printMenu(order);
     this.printTotalPriceBeforeDiscount(totalPrice);
+    this.printFreeGift(benefits);
   },
 
   printPreviewStart(data) {
@@ -26,6 +27,12 @@ const OutputView = {
   printTotalPriceBeforeDiscount(totalPrice) {
     Console.print(PRINT.BEFORE_DISCOUNT);
     Console.print(`${totalPrice.toLocaleString()}원`);
+  },
+
+  printFreeGift(benefits) {
+    Console.print(PRINT.FREE_GIFT);
+    const freeGift = benefits["증정 이벤트"] === "없음" ? "없음" : "샴페인 1개";
+    Console.print(freeGift);
   },
 };
 
