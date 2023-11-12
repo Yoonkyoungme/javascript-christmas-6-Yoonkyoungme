@@ -6,9 +6,10 @@ const OutputView = {
     Console.print(PRINT.INTRO);
   },
 
-  printPreview(data, order) {
+  printPreview(data, order, totalPrice) {
     this.printPreviewStart(data);
     this.printMenu(order);
+    this.printTotalPriceBeforeDiscount(totalPrice);
   },
 
   printPreviewStart(data) {
@@ -20,6 +21,11 @@ const OutputView = {
     for (let [menu, quantity] of Object.entries(order)) {
       Console.print(`${menu} ${quantity}개`);
     }
+  },
+
+  printTotalPriceBeforeDiscount(totalPrice) {
+    Console.print(PRINT.BEFORE_DISCOUNT);
+    Console.print(`${totalPrice.toLocaleString()}원`);
   },
 };
 

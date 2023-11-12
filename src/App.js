@@ -5,12 +5,13 @@ import Calculator from "./Calculator.js";
 class App {
   #date;
   #order;
+  #totalPrice;
 
   async run() {
     OutputView.printIntro();
     await this.getInputData();
     this.calculatePrice();
-    OutputView.printPreview(this.#date, this.#order);
+    OutputView.printPreview(this.#date, this.#order, this.#totalPrice);
   }
 
   async getInputData() {
@@ -20,6 +21,7 @@ class App {
 
   calculatePrice() {
     const calculator = new Calculator(this.#order);
+    this.#totalPrice = calculator.calculateTotalPriceBeforeDiscount();
   }
 }
 
