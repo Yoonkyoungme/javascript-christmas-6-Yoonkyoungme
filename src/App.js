@@ -6,6 +6,7 @@ class App {
   #date;
   #order;
   #totalPrice;
+  #benefits;
 
   async run() {
     OutputView.printIntro();
@@ -22,6 +23,7 @@ class App {
   calculatePrice() {
     const calculator = new Calculator(this.#order);
     this.#totalPrice = calculator.calculateTotalPriceBeforeDiscount();
+    this.#benefits = calculator.calculateBenefits();
   }
 }
 

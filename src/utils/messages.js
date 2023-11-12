@@ -11,6 +11,7 @@ const PRINT = {
   },
   ORDER_MENU: "<주문 메뉴>",
   BEFORE_DISCOUNT: "\n<할인 전 총주문 금액>",
+  FREE_GIFT: "\n<증정 메뉴>",
 };
 
 const ERROR = {};

@@ -1,12 +1,14 @@
-import { MENU_LIST } from "./utils/constants.js";
+import { MENU_LIST, NUMBERS } from "./utils/constants.js";
 
 class Calculator {
   #order;
   #totalPriceBeforeDiscount;
+  #benefits = {};
 
   constructor(order) {
     this.#order = order;
     this.#totalPriceBeforeDiscount = this.calculateTotalPriceBeforeDiscount();
+    this.#benefits = this.calculateBenefits();
   }
 
   calculatePriceForMenu(menu, quantity) {
@@ -25,6 +27,18 @@ class Calculator {
       total += this.calculatePriceForMenu(menu, this.#order[menu]);
     }
     return total;
+  }
+
+  calculateFreeGift() {
+    this.#benefits["증정 이벤트"] =
+      this.#totalPriceBeforeDiscount >= NUMBERS.FREE_GIFT_PRICE
+        ? MENU_LIST.DRINKS.샴페인
+        : "없음";
+  }
+
+  calculateBenefits() {
+    this.calculateFreeGift();
+    return this.#benefits;
   }
 }
 

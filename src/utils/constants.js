@@ -21,4 +21,8 @@ const MENU_LIST = {
   },
 };
 
-export { MENU_LIST };
+const NUMBERS = {
+  FREE_GIFT_PRICE: 120000,
+};
+
+export { MENU_LIST, NUMBERS };
