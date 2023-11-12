@@ -10,6 +10,7 @@ class App {
     OutputView.printIntro();
     await this.getInputData();
     this.calculatePrice();
+    OutputView.printPreview(this.#date, this.#order);
   }
 
   async getInputData() {

@@ -6,11 +6,21 @@ const OutputView = {
     Console.print(PRINT.INTRO);
   },
 
-  printMenu() {
-    Console.print("<주문 메뉴>");
-    // ...
+  printPreview(data, order) {
+    this.printPreviewStart(data);
+    this.printMenu(order);
   },
-  // ...
+
+  printPreviewStart(data) {
+    Console.print(PRINT.PREVIEW(data));
+  },
+
+  printMenu(order) {
+    Console.print(PRINT.ORDER_MENU);
+    for (let [menu, quantity] of Object.entries(order)) {
+      Console.print(`${menu} ${quantity}개`);
+    }
+  },
 };
 
 export default OutputView;
