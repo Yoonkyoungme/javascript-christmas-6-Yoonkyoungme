@@ -10,11 +10,12 @@ class Order {
 
   parseOrder(order) {
     const orderList = order.split(",");
-    const orderMap = {};
+    const orderMap = [];
 
     for (let order of orderList) {
-      let [item, quantity] = order.split("-");
-      orderMap[item] = parseInt(quantity, 10);
+      let [menu, quantity] = order.split("-");
+      quantity = parseInt(quantity, 10);
+      orderMap.push({ menu, quantity });
     }
 
     return orderMap;

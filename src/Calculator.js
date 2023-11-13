@@ -11,21 +11,27 @@ class Calculator {
     this.#benefits = this.calculateBenefits();
   }
 
-  calculatePriceForMenu(menu, quantity) {
-    for (let category in MENU_LIST) {
-      if (menu in MENU_LIST[category]) {
-        return MENU_LIST[category][menu] * quantity;
+  calculateMenuPrice(category, order) {
+    let price = 0;
+
+    MENU_LIST[category].forEach((menuDetails) => {
+      if (menuDetails.menu === order.menu) {
+        price += menuDetails.price * order.quantity;
       }
-    }
-    return 0;
+    });
+
+    return price;
   }
 
   calculateTotalPriceBeforeDiscount() {
     let total = 0;
 
-    for (let menu in this.#order) {
-      total += this.calculatePriceForMenu(menu, this.#order[menu]);
+    for (let category in MENU_LIST) {
+      this.#order.forEach((order) => {
+        total += this.calculateMenuPrice(category, order);
+      });
     }
+
     return total;
   }
 

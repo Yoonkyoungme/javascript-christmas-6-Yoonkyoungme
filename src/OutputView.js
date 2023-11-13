@@ -17,9 +17,11 @@ const OutputView = {
     Console.print(PRINT.PREVIEW(data));
   },
 
-  printMenu(order) {
+  printMenu(orderList) {
     Console.print(PRINT.ORDER_MENU);
-    for (let [menu, quantity] of Object.entries(order)) {
+
+    for (let order of orderList) {
+      let { menu, quantity } = order;
       Console.print(`${menu} ${quantity}개`);
     }
   },
