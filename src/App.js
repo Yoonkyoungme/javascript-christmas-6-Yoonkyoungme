@@ -9,7 +9,7 @@ class App {
     OutputView.printIntro();
     const date = await this.createDate();
     const order = await this.createOrder();
-    const benefits = new Benefits(order.calculateTotalPrice());
+    const benefits = new Benefits(order, date);
 
     this.printPreview(date, order, benefits);
   }

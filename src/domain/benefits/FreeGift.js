@@ -1,6 +1,11 @@
-import { NUMBERS, BENEFITS } from "../../utils/constants.js";
-
 class FreeGift {
+  static FREE_GIFT_PRICE = 120000;
+  static FREE_GIFT_DISCOUNT = 25000;
+  static FREE_GIFT_EVENT = {
+    name: "증정 이벤트",
+    menu: "샴페인",
+  };
+
   #freeGift;
 
   constructor(totalPrice) {
@@ -8,10 +13,9 @@ class FreeGift {
   }
 
   calculateFreeGift(totalPrice) {
-    if (totalPrice >= NUMBERS.FREE_GIFT_PRICE) {
-      return BENEFITS.RECEIVE.FREE_GIFT;
-    }
-    return BENEFITS.NOT_RECEIVE;
+    const discount =
+      totalPrice >= FreeGift.FREE_GIFT_PRICE ? FreeGift.FREE_GIFT_DISCOUNT : 0;
+    return { ...FreeGift.FREE_GIFT_EVENT, discount };
   }
 
   getFreeGift() {

@@ -21,19 +21,6 @@ const MENU_LIST = {
   ],
 };
 
-const NUMBERS = {
-  FREE_GIFT_PRICE: 120000,
-};
+const NOT_RECEIVE = "없음";
 
-const BENEFITS = {
-  RECEIVE: {
-    FREE_GIFT: {
-      menu: "샴페인",
-      price: 25000,
-    },
-  },
-
-  NOT_RECEIVE: "없음",
-};
-
-export { MENU_LIST, NUMBERS, BENEFITS };
+export { MENU_LIST, NOT_RECEIVE };
