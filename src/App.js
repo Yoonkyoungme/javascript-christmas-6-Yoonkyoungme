@@ -1,9 +1,8 @@
 import InputView from "./InputView.js";
 import OutputView from "./OutputView.js";
-import Date from "./domain/Date.js";
+import VisitDate from "./domain/VisitDate.js";
 import Order from "./domain/Order.js";
 import Benefits from "./domain/benefits/Benefits.js";
-import { Console } from "@woowacourse/mission-utils";
 
 class App {
   async run() {
@@ -17,7 +16,7 @@ class App {
 
   async createDate() {
     const inputdate = await InputView.readDate();
-    const date = new Date(inputdate);
+    const date = new VisitDate(inputdate);
     return date;
   }
 
