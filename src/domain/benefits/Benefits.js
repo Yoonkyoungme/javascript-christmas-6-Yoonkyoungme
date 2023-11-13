@@ -1,6 +1,8 @@
-import FreeGift from "./FreeGift.js";
+import DiscountChristmas from "./DiscountChristmas.js";
 import DiscountDayOfWeek from "./DiscountDayOfWeek.js";
 import DiscountSpecial from "./DiscountSpecial.js";
+import FreeGift from "./FreeGift.js";
+import { EVENT_DAY } from "../../utils/constants.js";
 
 class Benefits {
   #date;
@@ -15,9 +17,9 @@ class Benefits {
     this.#totalPrice = order.getTotalPrice();
   }
 
-  getFreeGift() {
-    const freeGift = new FreeGift(this.#totalPrice);
-    return freeGift.getFreeGift();
+  getDicountChristmas() {
+    const discount = new DiscountChristmas(this.#date);
+    return discount.getTotalDiscount();
   }
 
   getDiscountDayOfWeek() {
@@ -28,6 +30,26 @@ class Benefits {
   getDiscountSpecial() {
     const discount = new DiscountSpecial(this.#date, this.#dayOfWeek);
     return discount.getTotalDiscount();
+  }
+
+  getFreeGift() {
+    const freeGift = new FreeGift(this.#totalPrice);
+    return freeGift.getFreeGift();
+  }
+
+  applyEvent() {
+    const totalBenefits = [];
+
+    if (this.#date <= EVENT_DAY) {
+      totalBenefits.push(this.getDicountChristmas());
+    }
+    totalBenefits.push(
+      this.getDiscountDayOfWeek(),
+      this.getDiscountSpecial(),
+      this.getFreeGift()
+    );
+
+    return totalBenefits;
   }
 }
 

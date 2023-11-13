@@ -22,5 +22,6 @@ const MENU_LIST = {
 };
 
 const NOT_RECEIVE = "없음";
+const EVENT_DAY = 25;
 
-export { MENU_LIST, NOT_RECEIVE };
+export { MENU_LIST, NOT_RECEIVE, EVENT_DAY };

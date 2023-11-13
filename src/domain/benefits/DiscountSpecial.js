@@ -1,3 +1,5 @@
+import { EVENT_DAY } from "../../utils/constants.js";
+
 class DiscountSpecial {
   #discountResult;
 
@@ -6,7 +8,7 @@ class DiscountSpecial {
   }
 
   calculateTotalDiscount(date, dayOfWeek) {
-    if (dayOfWeek === 0 || date === 25) {
+    if (dayOfWeek === 0 || date === EVENT_DAY) {
       return { name: "특별 할인", discount: 1000 };
     }
   }
