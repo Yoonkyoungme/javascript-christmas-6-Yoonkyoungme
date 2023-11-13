@@ -1,4 +1,4 @@
-import Order from "./Order.js";
+import Order from "./domain/Order.js";
 import { Console } from "@woowacourse/mission-utils";
 import { READ } from "./utils/messages.js";
 
@@ -10,8 +10,7 @@ const InputView = {
 
   async readOrder() {
     const input = await Console.readLineAsync(READ.ORDER);
-    const order = new Order(input);
-    return order.getOrder();
+    return input;
   },
 };
 

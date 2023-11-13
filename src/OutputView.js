@@ -1,40 +1,45 @@
 import { Console } from "@woowacourse/mission-utils";
 import { PRINT } from "./utils/messages.js";
+import { BENEFITS } from "./utils/constants.js";
 
 const OutputView = {
   printIntro() {
     Console.print(PRINT.INTRO);
   },
 
-  printPreview(data, order, totalPrice, benefits) {
-    this.printPreviewStart(data);
+  printPreview(date, order, benefits) {
+    this.printPreviewStart(date);
     this.printMenu(order);
-    this.printTotalPriceBeforeDiscount(totalPrice);
+    this.printTotalPriceBeforeDiscount(order);
     this.printFreeGift(benefits);
   },
 
-  printPreviewStart(data) {
-    Console.print(PRINT.PREVIEW(data));
+  printPreviewStart(date) {
+    Console.print(PRINT.PREVIEW(date.getDate()));
   },
 
-  printMenu(orderList) {
+  printMenu(order) {
     Console.print(PRINT.ORDER_MENU);
 
-    for (let order of orderList) {
-      let { menu, quantity } = order;
+    const orderList = order.getOrder();
+    for (let menuDetails of orderList) {
+      let { menu, quantity } = menuDetails;
       Console.print(`${menu} ${quantity}개`);
     }
   },
 
-  printTotalPriceBeforeDiscount(totalPrice) {
+  printTotalPriceBeforeDiscount(order) {
+    const totalPrice = order.getTotalPrice();
     Console.print(PRINT.BEFORE_DISCOUNT);
     Console.print(`${totalPrice.toLocaleString()}원`);
   },
 
   printFreeGift(benefits) {
     Console.print(PRINT.FREE_GIFT);
-    const freeGift = benefits["증정 이벤트"] === "없음" ? "없음" : "샴페인 1개";
-    Console.print(freeGift);
+    const freeGift = benefits.getFreeGift();
+    Console.print(
+      freeGift === BENEFITS.NOT_RECEIVE ? BENEFITS.NOT_RECEIVE : freeGift.menu
+    );
   },
 };
 

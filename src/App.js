@@ -1,34 +1,34 @@
 import InputView from "./InputView.js";
 import OutputView from "./OutputView.js";
-import Calculator from "./Calculator.js";
+import Date from "./domain/Date.js";
+import Order from "./domain/Order.js";
+import Benefits from "./domain/benefits/Benefits.js";
+import { Console } from "@woowacourse/mission-utils";
 
 class App {
-  #date;
-  #order;
-  #totalPrice;
-  #benefits;
-
   async run() {
     OutputView.printIntro();
-    await this.getInputData();
-    this.calculatePrice();
-    OutputView.printPreview(
-      this.#date,
-      this.#order,
-      this.#totalPrice,
-      this.#benefits
-    );
+    const date = await this.createDate();
+    const order = await this.createOrder();
+    const benefits = new Benefits(order.calculateTotalPrice());
+
+    this.printPreview(date, order, benefits);
   }
 
-  async getInputData() {
-    this.#date = await InputView.readDate();
-    this.#order = await InputView.readOrder();
+  async createDate() {
+    const inputdate = await InputView.readDate();
+    const date = new Date(inputdate);
+    return date;
   }
 
-  calculatePrice() {
-    const calculator = new Calculator(this.#order);
-    this.#totalPrice = calculator.calculateTotalPriceBeforeDiscount();
-    this.#benefits = calculator.calculateBenefits();
+  async createOrder() {
+    const inputOrder = await InputView.readOrder();
+    const order = new Order(inputOrder);
+    return order;
+  }
+
+  printPreview(date, order, benefits) {
+    OutputView.printPreview(date, order, benefits);
   }
 }
 
