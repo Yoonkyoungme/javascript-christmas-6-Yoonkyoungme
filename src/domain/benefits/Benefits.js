@@ -2,9 +2,11 @@ import DiscountChristmas from "./DiscountChristmas.js";
 import DiscountDayOfWeek from "./DiscountDayOfWeek.js";
 import DiscountSpecial from "./DiscountSpecial.js";
 import FreeGift from "./FreeGift.js";
-import { EVENT_DAY } from "../../utils/constants.js";
+import { NOT_RECEIVE, EVENT_DAY } from "../../utils/constants.js";
 
 class Benefits {
+  static BASE_PRICE = 10000;
+
   #date;
   #order;
   #dayOfWeek;
@@ -38,18 +40,33 @@ class Benefits {
   }
 
   applyEvent() {
-    const totalBenefits = [];
+    const benefitList = [];
 
     if (this.#date <= EVENT_DAY) {
-      totalBenefits.push(this.getDicountChristmas());
+      benefitList.push(this.getDicountChristmas());
     }
-    totalBenefits.push(
+    benefitList.push(
       this.getDiscountDayOfWeek(),
       this.getDiscountSpecial(),
       this.getFreeGift()
     );
+    const totalDiscountPrice = this.calculateTotalBenefits(benefitList);
+    return { benefitList, totalDiscountPrice };
+  }
 
-    return totalBenefits;
+  calculateTotalBenefits(benefitList) {
+    const discountPrice = benefitList.reduce(
+      (acc, cur) => acc + cur.discount,
+      0
+    );
+    return discountPrice;
+  }
+
+  getTotalBenefits() {
+    if (this.#totalPrice >= Benefits.BASE_PRICE) {
+      return this.applyEvent();
+    }
+    return NOT_RECEIVE;
   }
 }
 

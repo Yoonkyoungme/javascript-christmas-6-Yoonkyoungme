@@ -11,6 +11,7 @@ class DiscountSpecial {
     if (dayOfWeek === 0 || date === EVENT_DAY) {
       return { name: "특별 할인", discount: 1000 };
     }
+    return { name: "특별 할인", discount: 0 };
   }
 
   getTotalDiscount() {
