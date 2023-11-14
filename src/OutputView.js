@@ -13,6 +13,7 @@ const OutputView = {
     this.printTotalPriceBeforeDiscount(order);
     this.printFreeGift(benefits);
     this.printBenefits(benefits);
+    this.printTotalPriceAfterDiscount(benefits);
   },
 
   printPreviewStart(date) {
@@ -73,6 +74,11 @@ const OutputView = {
     }
 
     Console.print(`${totalDiscountPrice}원`);
+  },
+
+  printTotalPriceAfterDiscount(benefits) {
+    Console.print(PRINT.AFTER_DISCOUNT);
+    Console.print(`${benefits.getTotalPrice().toLocaleString()}원`);
   },
 };
 

@@ -6,7 +6,6 @@ import { NOT_RECEIVE, EVENT_DAY } from "../../utils/constants.js";
 
 class Benefits {
   static BASE_PRICE = 10000;
-
   #date;
   #order;
   #dayOfWeek;
@@ -19,54 +18,68 @@ class Benefits {
     this.#totalPrice = order.getTotalPrice();
   }
 
-  getDicountChristmas() {
-    const discount = new DiscountChristmas(this.#date);
-    return discount.getTotalDiscount();
-  }
-
-  getDiscountDayOfWeek() {
-    const discount = new DiscountDayOfWeek(this.#order, this.#dayOfWeek);
-    return discount.getTotalDiscount();
-  }
-
-  getDiscountSpecial() {
-    const discount = new DiscountSpecial(this.#date, this.#dayOfWeek);
-    return discount.getTotalDiscount();
+  getDiscounts() {
+    return {
+      christmas: new DiscountChristmas(this.#date),
+      dayOfWeek: new DiscountDayOfWeek(this.#order, this.#dayOfWeek),
+      special: new DiscountSpecial(this.#date, this.#dayOfWeek),
+    };
   }
 
   getFreeGift() {
-    const freeGift = new FreeGift(this.#totalPrice);
-    return freeGift.getFreeGift();
+    return new FreeGift(this.#totalPrice).getFreeGift();
+  }
+
+  applyChristmasDiscount(benefitList, discounts) {
+    if (this.#date <= EVENT_DAY) {
+      benefitList.push(discounts.christmas.getTotalDiscount());
+    }
+    return benefitList;
+  }
+
+  applyOtherDiscounts(benefitList, discounts) {
+    benefitList.push(
+      discounts.dayOfWeek.getTotalDiscount(),
+      discounts.special.getTotalDiscount(),
+      this.getFreeGift()
+    );
+    return benefitList;
   }
 
   applyEvent() {
-    const benefitList = [];
-
-    if (this.#date <= EVENT_DAY) {
-      benefitList.push(this.getDicountChristmas());
-    }
-    benefitList.push(
-      this.getDiscountDayOfWeek(),
-      this.getDiscountSpecial(),
-      this.getFreeGift()
-    );
+    const discounts = this.getDiscounts();
+    let benefitList = [];
+    benefitList = this.applyChristmasDiscount(benefitList, discounts);
+    benefitList = this.applyOtherDiscounts(benefitList, discounts);
     const totalDiscountPrice = this.calculateTotalBenefits(benefitList);
     return { benefitList, totalDiscountPrice };
   }
 
   calculateTotalBenefits(benefitList) {
-    const discountPrice = benefitList.reduce(
-      (acc, cur) => acc + cur.discount,
-      0
-    );
-    return discountPrice;
+    return benefitList.reduce((acc, cur) => acc + cur.discount, 0);
   }
 
   getTotalBenefits() {
-    if (this.#totalPrice >= Benefits.BASE_PRICE) {
-      return this.applyEvent();
+    if (this.#totalPrice < Benefits.BASE_PRICEto) {
+      return NOT_RECEIVE;
     }
-    return NOT_RECEIVE;
+    return this.applyEvent();
+  }
+
+  findGiftDiscount(benefitList) {
+    return benefitList.find((benefit) => benefit.name === "증정 이벤트")
+      .discount;
+  }
+
+  getTotalPrice() {
+    const totalBenefits = this.getTotalBenefits();
+    const { benefitList, totalDiscountPrice } = totalBenefits;
+
+    if (totalBenefits !== NOT_RECEIVE) {
+      const giftDiscount = this.findGiftDiscount(benefitList);
+      return this.#totalPrice - (totalDiscountPrice - (giftDiscount || 0));
+    }
+    return this.#totalPrice;
   }
 }
 

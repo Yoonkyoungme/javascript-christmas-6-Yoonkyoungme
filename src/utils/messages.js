@@ -14,6 +14,7 @@ const PRINT = {
   FREE_GIFT: "\n<증정 메뉴>",
   BENEFIT_DETAILS: "\n<혜택 내역>",
   TOTAL_BENEFIT_AMOUNT: "\n<총혜택 금액>",
+  AFTER_DISCOUNT: "\n<할인 후 예상 결제 금액>",
 };
 
 const ERROR = {};
