@@ -1,4 +1,11 @@
+import { ERROR } from "../utils/messages.js";
+
 class VisitDate {
+  static YEAR = 2023;
+  static MONTH = 12;
+  static START_DAY = 1;
+  static END_DAY = 31;
+
   #date;
 
   constructor(date) {
@@ -6,7 +13,19 @@ class VisitDate {
     this.#date = parseInt(date);
   }
 
-  #validate(date) {}
+  #validate(date) {
+    if (!this.#isInteger(date) || !this.#isInRange(date)) {
+      throw new Error(ERROR.INVALID_DATE);
+    }
+  }
+
+  #isInteger(date) {
+    return !isNaN(date) && date % 1 === 0;
+  }
+
+  #isInRange(date) {
+    return date >= VisitDate.START_DAY && date <= VisitDate.END_DAY;
+  }
 
   getDate() {
     return this.#date;
@@ -19,7 +38,11 @@ class VisitDate {
   }
 
   getDayOfWeek() {
-    const dateStr = this.formatDate(2023, 12, this.#date);
+    const dateStr = this.formatDate(
+      VisitDate.YEAR,
+      VisitDate.MONTH,
+      this.#date
+    );
     const dayOfWeek = new Date(dateStr).getDay();
     return dayOfWeek;
   }

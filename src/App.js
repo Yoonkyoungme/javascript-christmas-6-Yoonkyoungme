@@ -3,6 +3,7 @@ import OutputView from "./OutputView.js";
 import VisitDate from "./domain/VisitDate.js";
 import Order from "./domain/Order.js";
 import Benefits from "./domain/benefits/Benefits.js";
+import { Console } from "@woowacourse/mission-utils";
 
 class App {
   async run() {
@@ -15,9 +16,14 @@ class App {
   }
 
   async createDate() {
-    const inputdate = await InputView.readDate();
-    const date = new VisitDate(inputdate);
-    return date;
+    try {
+      const inputdate = await InputView.readDate();
+      const date = new VisitDate(inputdate);
+      return date;
+    } catch (error) {
+      Console.print(error.message);
+      return await this.createDate();
+    }
   }
 
   async createOrder() {
