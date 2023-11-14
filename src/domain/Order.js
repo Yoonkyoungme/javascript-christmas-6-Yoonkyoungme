@@ -15,6 +15,7 @@ class Order {
     this.#checkOrderFormat(order);
     this.#checkMenuExists(order);
     this.#checkDuplicateMenu(order);
+    this.#checkOrderLimit(order);
   }
 
   #checkOrderFormat(order) {
@@ -38,6 +39,15 @@ class Order {
     const orderMenus = this.getOrderMenus(order);
     const menuSet = new Set(orderMenus);
     if (orderMenus.length !== menuSet.size) {
+      throw new Error(ERROR.INVALID_ORDER);
+    }
+  }
+
+  #checkOrderLimit(order) {
+    const orderQuantity = order.split(",").map((item) => +item.split("-")[1]);
+    const totalQuantity = orderQuantity.reduce((acc, cur) => acc + cur, 0);
+
+    if (totalQuantity > Order.LIMIT_QUANTITY) {
       throw new Error(ERROR.INVALID_ORDER);
     }
   }
