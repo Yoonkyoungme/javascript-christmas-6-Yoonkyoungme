@@ -44,6 +44,8 @@ const OutputView = {
     this.isNotReceive(totalBenefits)
       ? Console.print(NOT_RECEIVE)
       : this.printBenefitList(totalBenefits);
+
+    this.printTotalBenefitAmount(totalBenefits);
   },
 
   isNotReceive(totalBenefits) {
@@ -60,6 +62,17 @@ const OutputView = {
 
   printBenefit({ name, discount }) {
     Console.print(`${name}: -${discount.toLocaleString()}원`);
+  },
+
+  printTotalBenefitAmount(totalBenefits) {
+    Console.print(PRINT.TOTAL_BENEFIT_AMOUNT);
+
+    let { totalDiscountPrice } = totalBenefits;
+    if (!this.isNotReceive(totalBenefits)) {
+      totalDiscountPrice = `-${totalDiscountPrice.toLocaleString()}`;
+    }
+
+    Console.print(`${totalDiscountPrice}원`);
   },
 };
 
