@@ -13,11 +13,22 @@ class Order {
 
   #validate(order) {
     this.#checkOrderFormat(order);
+    this.#checkMenuExists(order);
   }
 
   #checkOrderFormat(order) {
     const regex = /^([가-힣]+-[1-9][\d]*,)*([가-힣]+-[1-9][\d]*)$/;
     if (!regex.test(order)) {
+      throw new Error(ERROR.INVALID_ORDER);
+    }
+  }
+
+  #checkMenuExists(order) {
+    const orderMenus = this.getOrderMenus(order);
+    const menuList = Object.values(MENU_LIST)
+      .flat()
+      .map((item) => item.menu);
+    if (!orderMenus.every((menu) => menuList.includes(menu))) {
       throw new Error(ERROR.INVALID_ORDER);
     }
   }
