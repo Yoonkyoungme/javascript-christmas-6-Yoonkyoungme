@@ -2,6 +2,7 @@ import DiscountChristmas from "./DiscountChristmas.js";
 import DiscountDayOfWeek from "./DiscountDayOfWeek.js";
 import DiscountSpecial from "./DiscountSpecial.js";
 import FreeGift from "./FreeGift.js";
+import EventBadge from "./EventBadge.js";
 import { NOT_RECEIVE, EVENT_DAY } from "../../utils/constants.js";
 
 class Benefits {
@@ -38,9 +39,10 @@ class Benefits {
   }
 
   applyOtherDiscounts(benefitList, discounts) {
+    const { dayOfWeek, special } = discounts;
     benefitList.push(
-      discounts.dayOfWeek.getTotalDiscount(),
-      discounts.special.getTotalDiscount(),
+      dayOfWeek.getTotalDiscount(),
+      special.getTotalDiscount(),
       this.getFreeGift()
     );
     return benefitList;
@@ -80,6 +82,16 @@ class Benefits {
       return this.#totalPrice - (totalDiscountPrice - (giftDiscount || 0));
     }
     return this.#totalPrice;
+  }
+
+  getEventBadge() {
+    const totalBenefits = this.getTotalBenefits();
+    if (totalBenefits === NOT_RECEIVE) {
+      return NOT_RECEIVE;
+    }
+
+    const badge = new EventBadge(totalBenefits.totalDiscountPrice);
+    return badge.getEventBadge();
   }
 }
 

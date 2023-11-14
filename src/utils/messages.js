@@ -15,6 +15,7 @@ const PRINT = {
   BENEFIT_DETAILS: "\n<혜택 내역>",
   TOTAL_BENEFIT_AMOUNT: "\n<총혜택 금액>",
   AFTER_DISCOUNT: "\n<할인 후 예상 결제 금액>",
+  EVENT_BADGE: "\n<12월 이벤트 배지>",
 };
 
 const ERROR = {};
