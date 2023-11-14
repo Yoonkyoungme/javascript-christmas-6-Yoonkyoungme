@@ -16,6 +16,7 @@ class Order {
     this.#checkMenuExists(order);
     this.#checkDuplicateMenu(order);
     this.#checkOrderLimit(order);
+    this.#checkDrinkOnly(order);
   }
 
   #checkOrderFormat(order) {
@@ -48,6 +49,14 @@ class Order {
     const totalQuantity = orderQuantity.reduce((acc, cur) => acc + cur, 0);
 
     if (totalQuantity > Order.LIMIT_QUANTITY) {
+      throw new Error(ERROR.INVALID_ORDER);
+    }
+  }
+
+  #checkDrinkOnly(order) {
+    const orderMenus = this.getOrderMenus(order);
+    const drinkMenus = MENU_LIST["DRINKS"].map((drink) => drink.menu);
+    if (orderMenus.every((menu) => drinkMenus.includes(menu))) {
       throw new Error(ERROR.INVALID_ORDER);
     }
   }
