@@ -14,6 +14,7 @@ class Order {
   #validate(order) {
     this.#checkOrderFormat(order);
     this.#checkMenuExists(order);
+    this.#checkDuplicateMenu(order);
   }
 
   #checkOrderFormat(order) {
@@ -29,6 +30,14 @@ class Order {
       .flat()
       .map((item) => item.menu);
     if (!orderMenus.every((menu) => menuList.includes(menu))) {
+      throw new Error(ERROR.INVALID_ORDER);
+    }
+  }
+
+  #checkDuplicateMenu(order) {
+    const orderMenus = this.getOrderMenus(order);
+    const menuSet = new Set(orderMenus);
+    if (orderMenus.length !== menuSet.size) {
       throw new Error(ERROR.INVALID_ORDER);
     }
   }
