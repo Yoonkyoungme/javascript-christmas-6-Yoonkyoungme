@@ -62,7 +62,7 @@ class Benefits {
   }
 
   getTotalBenefits() {
-    if (this.#totalPrice < Benefits.BASE_PRICEto) {
+    if (this.#totalPrice < Benefits.BASE_PRICE) {
       return NOT_RECEIVE;
     }
     return this.applyEvent();
@@ -75,9 +75,9 @@ class Benefits {
 
   getTotalPrice() {
     const totalBenefits = this.getTotalBenefits();
-    const { benefitList, totalDiscountPrice } = totalBenefits;
 
     if (totalBenefits !== NOT_RECEIVE) {
+      const { benefitList, totalDiscountPrice } = totalBenefits;
       const giftDiscount = this.findGiftDiscount(benefitList);
       return this.#totalPrice - (totalDiscountPrice - (giftDiscount || 0));
     }

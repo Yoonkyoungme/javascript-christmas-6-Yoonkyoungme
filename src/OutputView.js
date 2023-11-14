@@ -69,12 +69,13 @@ const OutputView = {
   printTotalBenefitAmount(totalBenefits) {
     Console.print(PRINT.TOTAL_BENEFIT_AMOUNT);
 
-    let { totalDiscountPrice } = totalBenefits;
+    let totalBenefitAmount = 0;
     if (!this.isNotReceive(totalBenefits)) {
-      totalDiscountPrice = `-${totalDiscountPrice.toLocaleString()}`;
+      let { totalDiscountPrice } = totalBenefits;
+      totalBenefitAmount = `-${totalDiscountPrice.toLocaleString()}`;
     }
 
-    Console.print(`${totalDiscountPrice}원`);
+    Console.print(`${totalBenefitAmount}원`);
   },
 
   printTotalPriceAfterDiscount(benefits) {
