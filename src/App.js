@@ -27,9 +27,14 @@ class App {
   }
 
   async createOrder() {
-    const inputOrder = await InputView.readOrder();
-    const order = new Order(inputOrder);
-    return order;
+    try {
+      const inputOrder = await InputView.readOrder();
+      const order = new Order(inputOrder);
+      return order;
+    } catch (error) {
+      Console.print(error.message);
+      return await this.createOrder();
+    }
   }
 
   printPreview(date, order, benefits) {

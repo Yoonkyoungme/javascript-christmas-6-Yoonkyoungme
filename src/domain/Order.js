@@ -1,6 +1,9 @@
 import { MENU_LIST } from "../utils/constants.js";
+import { ERROR } from "../utils/messages.js";
 
 class Order {
+  static LIMIT_QUANTITY = 20;
+
   #order;
 
   constructor(order) {
@@ -8,7 +11,20 @@ class Order {
     this.#order = this.parseOrder(order);
   }
 
-  #validate(order) {}
+  #validate(order) {
+    this.#checkOrderFormat(order);
+  }
+
+  #checkOrderFormat(order) {
+    const regex = /^([가-힣]+-[1-9][\d]*,)*([가-힣]+-[1-9][\d]*)$/;
+    if (!regex.test(order)) {
+      throw new Error(ERROR.INVALID_ORDER);
+    }
+  }
+
+  getOrderMenus(order) {
+    return order.split(",").map((item) => item.split("-")[0]);
+  }
 
   parseOrder(order) {
     const orderList = [];
