@@ -14,6 +14,7 @@ const OutputView = {
     this.printFreeGift(benefits);
     this.printBenefits(benefits);
     this.printTotalPriceAfterDiscount(benefits);
+    this.printEventBadge(benefits);
   },
 
   printPreviewStart(date) {
@@ -79,6 +80,11 @@ const OutputView = {
   printTotalPriceAfterDiscount(benefits) {
     Console.print(PRINT.AFTER_DISCOUNT);
     Console.print(`${benefits.getTotalPrice().toLocaleString()}원`);
+  },
+
+  printEventBadge(benefits) {
+    Console.print(PRINT.EVENT_BADGE);
+    Console.print(benefits.getEventBadge());
   },
 };
 
