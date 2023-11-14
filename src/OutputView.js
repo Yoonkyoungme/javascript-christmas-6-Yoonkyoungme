@@ -1,6 +1,6 @@
 import { Console } from "@woowacourse/mission-utils";
 import { PRINT } from "./utils/messages.js";
-import { BENEFITS } from "./utils/constants.js";
+import { NOT_RECEIVE } from "./utils/constants.js";
 
 const OutputView = {
   printIntro() {
@@ -12,6 +12,7 @@ const OutputView = {
     this.printMenu(order);
     this.printTotalPriceBeforeDiscount(order);
     this.printFreeGift(benefits);
+    this.printBenefits(benefits);
   },
 
   printPreviewStart(date) {
@@ -20,26 +21,45 @@ const OutputView = {
 
   printMenu(order) {
     Console.print(PRINT.ORDER_MENU);
-
-    const orderList = order.getOrder();
-    for (let menuDetails of orderList) {
-      let { menu, quantity } = menuDetails;
+    order.getOrder().forEach(({ menu, quantity }) => {
       Console.print(`${menu} ${quantity}개`);
-    }
+    });
   },
 
   printTotalPriceBeforeDiscount(order) {
-    const totalPrice = order.getTotalPrice();
     Console.print(PRINT.BEFORE_DISCOUNT);
-    Console.print(`${totalPrice.toLocaleString()}원`);
+    Console.print(`${order.getTotalPrice().toLocaleString()}원`);
   },
 
   printFreeGift(benefits) {
     Console.print(PRINT.FREE_GIFT);
     const freeGift = benefits.getFreeGift();
-    Console.print(
-      freeGift === BENEFITS.NOT_RECEIVE ? BENEFITS.NOT_RECEIVE : freeGift.menu
+    Console.print(freeGift.discount === 0 ? NOT_RECEIVE : freeGift.menu);
+  },
+
+  printBenefits(benefits) {
+    Console.print(PRINT.BENEFIT_DETAILS);
+    const totalBenefits = benefits.getTotalBenefits();
+
+    this.isNotReceive(totalBenefits)
+      ? Console.print(NOT_RECEIVE)
+      : this.printBenefitList(totalBenefits);
+  },
+
+  isNotReceive(totalBenefits) {
+    return (
+      totalBenefits === NOT_RECEIVE || totalBenefits.totalDiscountPrice === 0
     );
+  },
+
+  printBenefitList(totalBenefits) {
+    totalBenefits.benefitList
+      .filter(({ discount }) => discount !== 0)
+      .forEach(this.printBenefit);
+  },
+
+  printBenefit({ name, discount }) {
+    Console.print(`${name}: -${discount.toLocaleString()}원`);
   },
 };
 
